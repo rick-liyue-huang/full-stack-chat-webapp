@@ -3,6 +3,7 @@ const app = express();
 const cors = require('cors');
 const db = require('./models');
 const postRouter = require('./routes/Posts');
+const commentRouter = require('./routes/Comments');
 const PORT = 3500;
 
 // solve the problem of cross-origin
@@ -11,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 // import routes
 app.use('/posts', postRouter);
+app.use('/comments', commentRouter);
 
 
 db.sequelize.sync().then(() => {
