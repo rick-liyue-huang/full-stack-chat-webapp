@@ -6,5 +6,11 @@ one simple fullstack webapp for only play
 
 sequelize is good tool to connect node with mysql database.
 
+using 'formik' framework to create form
+
+using 'yup' to complete validation schema on form
+
+
+
 
 
