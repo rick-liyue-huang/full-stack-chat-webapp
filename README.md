@@ -2,3 +2,9 @@
 
 one simple fullstack webapp for only play
 
+`npx sequelize-cli init` to create ORM, config the database by 'config' and create tables in 'models'.
+
+sequelize is good tool to connect node with mysql database.
+
+
+
