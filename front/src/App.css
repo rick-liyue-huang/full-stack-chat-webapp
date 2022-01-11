@@ -1,0 +1,125 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  width: 100vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 3rem;
+}
+
+/* HOME PAGE */
+
+.post {
+  width: 30rem;
+  height: 8rem;
+  border-radius: .6rem;
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  border: 1px solid aliceblue;
+  font-family: sans-serif;
+  box-shadow: rgba(199, 199, 199, 0.5) 0px 2px 8px 0px;
+}
+
+.post:hover {
+  box-shadow: rgba(300, 300, 300, 0.5) 0px 2px 8px 0px;
+  cursor: pointer;
+}
+
+.post .title {
+  flex: 20%;
+  border-bottom: 1px solid lightblue;
+  background-color: steelblue;
+  display: grid;
+  place-content: center;
+  color: white;
+}
+
+.post .body {
+  flex: 60%;
+  display: grid;
+  place-content: center;
+}
+
+.post .footer {
+  flex: 20%;
+  border-top: 1px solid lightblue;
+  display: flex;
+  align-items: center;
+  padding-left: 2rem;
+  background-color: steelblue;
+}
+
+/* CREATE POST PAGE  */
+
+.createPostPage {
+  font-family: sans-serif;
+  width: 100vw;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30rem;
+  height: auto;
+  padding: 2rem;
+  border: 1px solid lightblue;
+  border-radius: .25rem;
+}
+
+.formContainer #inputCreatePost {
+  height: 3rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid grey;
+  border-radius: .5rem;
+  padding-left: 1rem;
+  font-size: 1.5rem;
+}
+
+.formContainer button {
+  margin-top: 2rem;
+  height: 4rem;
+  border: none;
+  background-color: lightblue;
+  border-radius: .5rem;
+  color: white;
+}
+
+.formContainer button:hover {
+  cursor: pointer;
+  background-color: steelblue;
+}
+
+span {
+  color: red;
+}
+
+/* NAVBAR */
+
+.navbar {
+  width: 100%;
+  height: 3rem;
+  background-color: steelblue;
+  display: flex;
+  align-items: center;
+  font-family: sans-serif;
+}
+
+.navbar a {
+  margin-left: 2rem;
+  text-decoration: none;
+  color: white;
+}
+
+
