@@ -10,6 +10,10 @@ using 'formik' framework to create form
 
 using 'yup' to complete validation schema on form
 
+using 'npm i bcrypt' to safely store the password
+
+
+
 
 
 
