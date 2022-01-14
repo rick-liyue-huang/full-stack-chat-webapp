@@ -20,14 +20,25 @@ const Post = () => {
 	}, []);
 
 	const handleAddComment = () => {
-		axios.post(`${API_URL}/comments`, {
-			commentBody: newComment,
-			PostId: id,
-		})
+		axios.post(`${API_URL}/comments`,
+			{
+				commentBody: newComment,
+				PostId: id,
+			},
+			{
+				headers: {
+					accessToken: sessionStorage.getItem('accessToken')
+				}
+			}
+			)
 			.then(response => {
-				const addedComment = {commentBody: newComment}
-				setComments([...comments, addedComment]);
-				setNewComment('');
+				if (response.data.error) {
+					console.log(response.data.error)
+				} else {
+					const addedComment = {commentBody: newComment}
+					setComments([...comments, addedComment]);
+					setNewComment('');
+				}
 			})
 	}
 

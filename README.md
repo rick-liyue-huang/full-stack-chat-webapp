@@ -12,6 +12,8 @@ using 'yup' to complete validation schema on form
 
 using 'npm i bcrypt' to safely store the password
 
+install  npm i jsonwebtoken for authentication
+
 
 
 
