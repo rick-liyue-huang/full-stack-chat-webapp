@@ -1,10 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const db = require('./models');
 const app = express();
 const PORT = 3001
 
 // let server support json format
 app.use(express.json());
+// solve the problem of cross-origin
+app.use(cors());
 
 /*Router*/
 const postRouter = require('./routes/Posts');
