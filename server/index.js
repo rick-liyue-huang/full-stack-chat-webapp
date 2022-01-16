@@ -12,6 +12,8 @@ app.use(cors());
 /*Router*/
 const postRouter = require('./routes/Posts');
 app.use(`/posts`, postRouter);
+const commentRouter = require('./routes/Comments');
+app.use('/comments', commentRouter);
 
 // sequelize is a promise method, so it will create database tables async
 db.sequelize.sync().then(() => {

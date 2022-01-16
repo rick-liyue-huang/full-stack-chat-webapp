@@ -3,8 +3,11 @@ import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup';
 import axios from "axios";
 import {apiUrl} from "../App";
+import {useHistory} from "react-router-dom";
 
 const CreatePost = () => {
+
+	const history = useHistory()
 
 	const initialValues = {
 		title: '',
@@ -20,7 +23,8 @@ const CreatePost = () => {
 
 	const handleSubmit = (data) => {
 		axios.post(`${apiUrl}/posts`, data).then(response => {
-			console.log('it worked')
+			console.log('it worked');
+			history.push('/')
 		})
 	}
 
