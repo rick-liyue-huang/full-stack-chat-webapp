@@ -23,14 +23,27 @@ const Post = () => {
 	}, []);
 
 	const handleAddComment = () => {
-		axios.post(`${apiUrl}/comments`, {
-			commentBody: newComment, PostId: id
-		}).then(response => {
-			const comment = {commentBody: newComment};
-			setComments([...comments, comment]);
-			setNewComment('')
-		});
+		axios
+			.post(`${apiUrl}/comments`,
+				{
+					commentBody: newComment,
+					PostId: id
+				},
+				{
+					headers: {
+						accessToken: sessionStorage.getItem('accessToken')
+					}
+				}
+		).then(response => {
+			if (response.data.error) {
+				alert(response.data.error);
+			} else {
+				const comment = {commentBody: newComment};
+				setComments([...comments, comment]);
+				setNewComment('')
+			}
 
+		});
 	}
 
 	return (
