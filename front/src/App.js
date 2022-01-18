@@ -30,7 +30,12 @@ function App() {
         setAuthState(true)
       }
     });
-  }, [])
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    setAuthState(false);
+  }
 
   return (
     <div className="App">
@@ -42,10 +47,14 @@ function App() {
             <Link to={'/'}>Home Page</Link>
             <Link to={'/createpost'}>Create Post</Link>
             {
-              !authState && (
+              !authState ? (
                 <>
                   <Link to={'/login'}>Login</Link>
                   <Link to={'/register'}>Register</Link>
+                </>
+              ) : (
+                <>
+                  <button onClick={handleLogout}>Logout</button>
                 </>
               )
             }
