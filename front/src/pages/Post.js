@@ -31,14 +31,14 @@ const Post = () => {
 				},
 				{
 					headers: {
-						accessToken: sessionStorage.getItem('accessToken')
+						accessToken: localStorage.getItem('accessToken')
 					}
 				}
 		).then(response => {
 			if (response.data.error) {
 				alert(response.data.error);
 			} else {
-				const comment = {commentBody: newComment};
+				const comment = {commentBody: newComment, username: response.data.username};
 				setComments([...comments, comment]);
 				setNewComment('')
 			}
@@ -64,7 +64,10 @@ const Post = () => {
 				<div className="listOfComments">
 					{
 						comments.map((comment, key) => (
-							<div key={key} className={'comment'}>{comment.commentBody}</div>
+							<div key={key} className={'comment'}>
+								{comment.commentBody}
+								<label> Username: {comment.username}</label>
+							</div>
 						))
 					}
 				</div>

@@ -3,6 +3,7 @@ const router = express.Router();
 const {Users} = require('../models');
 const bcrypt = require('bcrypt');
 const {asign, sign} = require('jsonwebtoken');
+const {validateTokens} = require("../middlewares/AuthMiddleware");
 
 router.post('/', async (req, res) => {
 	const {username, password} = req.body;
@@ -36,6 +37,10 @@ router.post('/login', async (req, res) => {
 	else{
 		res.json({ error: "User doesn't exist"})
 	}
+});
+
+router.get('/auth', validateTokens, (req, res) => {
+	res.json(req.user);
 })
 
 module.exports = router;
