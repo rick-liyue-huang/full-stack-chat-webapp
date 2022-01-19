@@ -16,6 +16,8 @@ const commentRouter = require('./routes/Comments');
 app.use('/comments', commentRouter);
 const userRouter = require('./routes/Users');
 app.use('/auth', userRouter);
+const likeRouter = require('./routes/Likes');
+app.use('/like', likeRouter);
 
 
 // sequelize is a promise method, so it will create database tables async
