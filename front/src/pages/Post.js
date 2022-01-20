@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import {apiUrl} from "../App";
 import {AuthContext} from "../tools/AuthContext";
@@ -10,6 +10,7 @@ const Post = () => {
 	const [postObject, setPostObject] = useState({});
 	const [comments, setComments] = useState([]);
 	const [newComment, setNewComment] = useState('');
+	const history = useHistory();
 
 	const {authState} = useContext(AuthContext)
 
@@ -60,6 +61,17 @@ const Post = () => {
 				setComments(comments.filter((comment) => {
 					return comment.id !== id;
 				}));
+			});
+	};
+
+	const handleDeletePost = (id) => {
+		axios.delete(`${apiUrl}/posts/${id}`, {
+			headers: {
+				accessToken: localStorage.getItem('accessToken')
+			}
+		})
+			.then(() => {
+				history.push('/')
 			})
 	}
 
@@ -68,7 +80,13 @@ const Post = () => {
 			<div className={'leftSide'}>
 				<div className={'title'}>{postObject.title}</div>
 				<div className="postText">{postObject.postText}</div>
-				<div className="footer">{postObject.username}</div>
+				<div className="footer">
+					{postObject.username}
+					{
+						authState.username === postObject.username && <button onClick={() => handleDeletePost(postObject.id)}>Delete</button>
+					}
+
+				</div>
 			</div>
 			<div className="rightSide">
 				<div className="addCommentContainer">

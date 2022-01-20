@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import {AuthContext} from './tools/AuthContext';
 import {useEffect, useState} from "react";
 import axios from "axios";
+import PageNotFound from "./pages/PageNotFound";
 
 export const apiUrl = 'http://localhost:3001'
 
@@ -56,23 +57,25 @@ function App() {
       }}>
         <Router>
           <div className={'navbar'}>
-            <Link to={'/'}>Home Page</Link>
-            <Link to={'/createpost'}>Create Post</Link>
-            {
-              !authState.status ? (
-                <>
-                  <Link to={'/login'}>Login</Link>
-                  <Link to={'/register'}>Register</Link>
-                </>
-              ) : (
-                <>
-                  <button onClick={handleLogout}>Logout</button>
-                </>
-              )
-            }
-
-            <h1>{authState.username}</h1>
-
+            <div className="links">
+              {
+                !authState.status ? (
+                  <>
+                    <Link to={'/login'}>Login</Link>
+                    <Link to={'/register'}>Register</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to={'/'}>Home Page</Link>
+                    <Link to={'/createpost'}>Create Post</Link>
+                  </>
+                )
+              }
+            </div>
+            <div className="loggedInContainer">
+              <h1>{authState.username}</h1>
+              {authState.status && <button onClick={handleLogout}>Logout</button>}
+            </div>
           </div>
           <Switch>
             <Route path={'/'} exact component={Home} />
@@ -80,6 +83,7 @@ function App() {
             <Route path={'/post/:id'} exact component={Post} />
             <Route path={'/login'} exact component={Login} />
             <Route path={'/register'} exact component={Register} />
+            <Route path={'*'} exact component={PageNotFound} />
           </Switch>
         </Router>
       </AuthContext.Provider>

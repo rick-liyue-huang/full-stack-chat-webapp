@@ -1,17 +1,36 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useHistory} from "react-router-dom";
 import axios from "axios";
+import StarsIcon from '@material-ui/icons/Stars';
 import {apiUrl} from "../App";
+import {AuthContext} from "../tools/AuthContext";
 
 const Home = () => {
 
 	const [listOfPosts, setListOfPosts] = useState([]);
+	const [likedPosts, setLikedPosts] = useState([]);
 	const history = useHistory();
+	const {authState} = useContext(AuthContext)
+
 
 	useEffect(() => {
-		axios.get(`${apiUrl}/posts`).then(response => {
-			setListOfPosts(response.data);
-		})
+
+		// we can delete post after login
+		if (/*!authState.status*/ !localStorage.getItem('accessToken')) {
+			history.push('/login')
+		} else {
+			axios.get(`${apiUrl}/posts`, {
+				headers: {
+					accessToken: localStorage.getItem('accessToken')
+				}
+			}).then(response => {
+				setListOfPosts(response.data.listOfPosts);
+				setLikedPosts(response.data.likedPosts);
+				// to get the likedPost id to config the post className
+				console.log(response.data.likedPosts.map(like => {return like.PostId}))
+			})
+		}
+
 	}, []);
 
 	const handleToggleLike = (postId) => {
@@ -36,6 +55,13 @@ const Home = () => {
 						return post;
 					}
 				}))
+
+				if (likedPosts.includes(postId)) {
+					setLikedPosts(likedPosts.filter(id => {return id != postId}))
+				} else {
+					setLikedPosts([...likedPosts, postId])
+				}
+
 			})
 	}
 	return (
@@ -47,10 +73,17 @@ const Home = () => {
 						<div className={'body'}>{post.postText}</div>
 						<div className={'footer'}>
 							{post.username}
-							<button onClick={(e) => {
+							<StarsIcon
+								className={likedPosts.includes(post.id) ? 'unlikeBttn': 'likeBttn'}
+								onClick={(e) => {
+									handleToggleLike(post.id);
+									e.stopPropagation();
+								}}
+							/>
+							{/*<button onClick={(e) => {
 								handleToggleLike(post.id);
 								e.stopPropagation();
-							}}>Like</button>
+							}}>Like</button>*/}
 							<label>{post.Likes.length}</label>
 						</div>
 					</div>
