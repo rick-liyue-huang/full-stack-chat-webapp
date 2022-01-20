@@ -10,6 +10,7 @@ import {AuthContext} from './tools/AuthContext';
 import {useEffect, useState} from "react";
 import axios from "axios";
 import PageNotFound from "./pages/PageNotFound";
+import Profile from "./pages/Profile";
 
 export const apiUrl = 'http://localhost:3001'
 
@@ -83,6 +84,7 @@ function App() {
             <Route path={'/post/:id'} exact component={Post} />
             <Route path={'/login'} exact component={Login} />
             <Route path={'/register'} exact component={Register} />
+            <Route path={'/profile/:id'} exact component={Profile} />
             <Route path={'*'} exact component={PageNotFound} />
           </Switch>
         </Router>

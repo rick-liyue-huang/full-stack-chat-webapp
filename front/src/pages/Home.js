@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useHistory} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 import axios from "axios";
 import StarsIcon from '@material-ui/icons/Stars';
 import {apiUrl} from "../App";
@@ -72,19 +72,23 @@ const Home = () => {
 						<div className={'title'}>{post.title}</div>
 						<div className={'body'}>{post.postText}</div>
 						<div className={'footer'}>
-							{post.username}
-							<StarsIcon
-								className={likedPosts.includes(post.id) ? 'unlikeBttn': 'likeBttn'}
-								onClick={(e) => {
-									handleToggleLike(post.id);
-									e.stopPropagation();
-								}}
-							/>
-							{/*<button onClick={(e) => {
+							<div className="username">
+								<Link onClick={e => e.stopPropagation()} to={`/profile/${post.UserId}`}>{post.username}</Link>
+							</div>
+							<div className="buttons">
+								<StarsIcon
+									className={likedPosts.includes(post.id) ? 'unlikeBttn': 'likeBttn'}
+									onClick={(e) => {
+										handleToggleLike(post.id);
+										e.stopPropagation();
+									}}
+								/>
+								{/*<button onClick={(e) => {
 								handleToggleLike(post.id);
 								e.stopPropagation();
 							}}>Like</button>*/}
-							<label>{post.Likes.length}</label>
+								<label>{post.Likes.length}</label>
+							</div>
 						</div>
 					</div>
 				))

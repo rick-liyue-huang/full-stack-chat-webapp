@@ -16,6 +16,8 @@ router.get('/', validateTokens, async (req, res) => {
 router.post('/', validateTokens, async (req, res) => {
 	const post = req.body;
 	post.username = req.user.username;
+	post.UserId = req.user.id;
+
 	// connect to database and create table data
 	await Posts.create(post);
 	res.json(post);
@@ -25,6 +27,12 @@ router.get('/byId/:id', async (req, res) => {
 	const id = req.params.id;
 	const post  = await Posts.findByPk(id);
 	res.json(post);
+});
+
+router.get('/byuserId/:id', async (req, res) => {
+	const id = req.params.id;
+	const listOfPosts  = await Posts.findAll({where: {UserId: id}, include: [Likes]})
+	res.json(listOfPosts);
 });
 
 router.delete('/:postId', validateTokens, async (req, res) => {
