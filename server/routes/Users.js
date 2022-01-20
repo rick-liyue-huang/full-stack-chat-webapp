@@ -4,6 +4,7 @@ const {Users} = require('../models');
 const bcrypt = require('bcrypt');
 const {asign, sign} = require('jsonwebtoken');
 const {validateTokens} = require("../middlewares/AuthMiddleware");
+const {raw} = require("express");
 
 router.post('/', async (req, res) => {
 	const {username, password} = req.body;
@@ -23,10 +24,10 @@ router.post('/login', async (req, res) => {
 	const {username, password} = req.body;
 	const user = await Users.findOne({where: {username: username}});
 
-	if (user)
+	if (user) {
 		bcrypt.compare(password, user.password).then((match) => {
 			if (!match)
-				res.json({ error: 'Wrong Username and Password combination' });
+				res.json({error: 'Wrong Username and Password combination'});
 			else {
 				const accessToken = sign(
 					{username: user.username, id: user.id},
@@ -34,6 +35,7 @@ router.post('/login', async (req, res) => {
 				res.json({token: accessToken, username: username, id: user.id});
 			}
 		});
+	}
 	else{
 		res.json({ error: "User doesn't exist"})
 	}
@@ -47,6 +49,24 @@ router.get('/basicinfo/:id', async (req, res) => {
 	const id = req.params.id;
 	const basicInfo = await Users.findByPk(id, {attributes: {exclude: ['password']}});
 	res.json(basicInfo);
+});
+
+router.put('/changepassword', validateTokens, async (req, res) => {
+	const {oldPassword, newPassword} = req.body;
+	// firstly, check the old password
+	const user = await Users.findOne({where: {username: req.user.username}});
+
+	bcrypt.compare(oldPassword, user.password).then(async (match) => {
+		if (!match) {
+			res.json({error: 'Wrong password entered'});
+		}
+
+		bcrypt.hash(newPassword, 10).then(hash => {
+			//	 hash is the hashed password
+			Users.update({password: hash}, {where: {username: req.user.username}})
+			res.json('update password success');
+		})
+	});
 })
 
 module.exports = router;

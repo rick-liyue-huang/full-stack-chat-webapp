@@ -1,14 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useHistory, useParams} from "react-router-dom";
 import axios from "axios";
 import {apiUrl} from "../App";
 import StarsIcon from "@material-ui/icons/Stars";
+import {AuthContext} from "../tools/AuthContext";
 
 const Profile = () => {
 	const {id} = useParams();
 	const history = useHistory();
 	const [username, setUsername] = useState('');
 	const [listOfPosts, setListOfPosts] = useState([]);
+	const {authState} = useContext(AuthContext)
 
 	useEffect(() => {
 		axios.get(`${apiUrl}/auth/basicinfo/${id}`)
@@ -26,6 +28,7 @@ const Profile = () => {
 				<h1>
 					Username: {username}
 				</h1>
+				{authState.username === username && <button onClick={() => history.push('/password')}>Change password: </button>}
 			</div>
 			<div className="listOfPosts">
 				{

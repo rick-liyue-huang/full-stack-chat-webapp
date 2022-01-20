@@ -73,13 +73,59 @@ const Post = () => {
 			.then(() => {
 				history.push('/')
 			})
+	};
+
+	const handleEditPost = (option) => {
+		if (option === 'title') {
+			const newTitle = prompt('Enter new Title: ');
+			axios.put(`${apiUrl}/posts/title`,
+				{
+					newTitle: newTitle,
+					id: id
+				},
+				{
+					headers: {
+						accessToken: localStorage.getItem('accessToken')
+					}
+				})
+				.then(response => {
+					setPostObject({...postObject, title: response.data});
+				})
+		} else if (option === 'postText') {
+			const newText = prompt('Enter new Text: ');
+			axios.put(`${apiUrl}/posts/postText`,
+				{
+					newText: newText,
+					id: id
+				},
+				{
+					headers: {
+						accessToken: localStorage.getItem('accessToken')
+					}
+				})
+				.then(response => setPostObject({...postObject, postText: newText}))
+		}
 	}
 
 	return (
 		<div className={'postPage'}>
 			<div className={'leftSide'}>
-				<div className={'title'}>{postObject.title}</div>
-				<div className="postText">{postObject.postText}</div>
+				<div
+					className={'title'}
+					onClick={() => {
+						if (authState.username === postObject.username) {
+							handleEditPost('title')
+						}
+					}}
+				>{postObject.title}</div>
+				<div
+					className="postText"
+					onClick={() => {
+						if (authState.username === postObject.username) {
+							handleEditPost('postText')
+						}
+					}}
+				>{postObject.postText}</div>
 				<div className="footer">
 					{postObject.username}
 					{

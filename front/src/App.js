@@ -11,6 +11,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import PageNotFound from "./pages/PageNotFound";
 import Profile from "./pages/Profile";
+import ChangePassword from "./pages/Password";
 
 export const apiUrl = 'http://localhost:3001'
 
@@ -85,6 +86,7 @@ function App() {
             <Route path={'/login'} exact component={Login} />
             <Route path={'/register'} exact component={Register} />
             <Route path={'/profile/:id'} exact component={Profile} />
+            <Route path={'/password'} exact component={ChangePassword} />
             <Route path={'*'} exact component={PageNotFound} />
           </Switch>
         </Router>

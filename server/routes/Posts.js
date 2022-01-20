@@ -39,7 +39,19 @@ router.delete('/:postId', validateTokens, async (req, res) => {
 	const postId = req.params.postId;
 	await Posts.destroy({where: {id: postId}});
 	res.json('deleted posts')
-})
+});
+
+router.put('/title', validateTokens, async (req, res) => {
+	const {newTitle, id} = req.body;
+	await Posts.update({title: newTitle}, {where: {id: id}});
+	res.json(newTitle)
+});
+
+router.put('/postText', validateTokens, async (req, res) => {
+	const {newText, id} = req.body;
+	await Posts.update({postText: newText}, {where: {id: id}});
+	res.json(newText)
+});
 
 
 module.exports = router;
